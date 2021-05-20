@@ -1,0 +1,20 @@
+//A recursive power function
+//power(j,n) = j^n
+
+#include < stdio.h >
+double power(double j, int n);
+
+int main(){
+  double j = 0.0;
+  int n = 0;
+  for(j = 2.0 ; j<= 5.0; j += 0.5)
+    for(n = 0 ; n<5 ; n++)
+      printf("%.2lf raised to the power %d = %.2lf\n", j, n, power(j,n));
+}
+
+double power(double j, int n){
+  if(n==0)
+    return 1.0;
+  else
+    return j*power(j,n-1);
+}
