@@ -88,7 +88,6 @@ class BlankCreator:
         for part_key in self.regex_patterns:
             for pattern in self.regex_patterns[part_key]["blanks"]:
                 pattern[0] = pattern[0].replace(r"%function_name", self.target_function_name)
-                print(pattern[0])
 
     def bracket_verify(self, span: tuple):
         _count = 0
@@ -115,18 +114,17 @@ class BlankCreator:
                         span_relative = blank.span(_regex_blank[1])
                         # add offset to span
                         span = tuple(map(operator.add, span_relative, (part_offset, part_offset)))
+                        # if regex contains bracket, verify pairing
+                        if r"\(" in _regex_blank[0]:
+                            span = self.bracket_verify(span)
                         if not Helper.is_in_range(span, matched_blanks + excepted_blanks):
                             # check this rule is to make blank or to skip blank
                             if _regex_blank[2]: # make
                                 matched_blanks.append(span)
                             else:
                                 excepted_blanks.append(span)
-
-        verified_blanks = []
-        for matched_blank in matched_blanks:
-            verified_blanks.append(self.bracket_verify(matched_blank))
         
-        return sorted(verified_blanks, key=lambda x: x[0])
+        return sorted(matched_blanks, key=lambda x: x[0])
 
     def make_blanks(self):
         blanks = self.determine_blank_position()
