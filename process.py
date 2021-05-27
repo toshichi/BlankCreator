@@ -39,8 +39,7 @@ class BlankCreator:
     regex_patterns_raw = {
         "target_function": {
             # self regex:[regex, function_name_group, function_content_group]
-            "self": [r"^(int|float|double|long|void|char\*)\s(.+)\s?\(.+\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
-            # "self": [r"^(int|float|double|long|void|char\*)\s((?!main).+)\s?\(.+\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
+            "self": [r"^(int|float|double|long|void|char\*)\s((?!main).+)\s?\(.+\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
             "blanks": [
                 # blank regex: [regex, blank_group, make blank/except blank(True/False)]
                 [r"^(.+?)(\[blankbefore\])", 1, True],
@@ -53,7 +52,7 @@ class BlankCreator:
             ]
         },
         "main_function": {
-            "self": [r"^(int|void)\s(main)\s?\(\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
+            "self": [r"^(int|void)\s(main)\s?\(.*\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
             "blanks": [
                 [r"^(.+?)(\[blankbefore\])", 1, True],
                 [r"^(.+?)(\[noblankbefore\])", 1, False],
