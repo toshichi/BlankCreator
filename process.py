@@ -37,43 +37,59 @@ class BlankCreator:
     # In a certain range, pattern in the front has higher priority
     # %function_name : function name of the recursion function
     regex_patterns_raw = {
-        "recursion_function": {
+        "target_function": {
             # self regex:[regex, function_name_group, function_content_group]
             "self": [r"^(int|float|double|long|void|char\*)\s(.+)\s?\(.+\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
+            # "self": [r"^(int|float|double|long|void|char\*)\s((?!main).+)\s?\(.+\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
             "blanks": [
-                # blank regex: [regex, blank_group]
-                [r"%function_name\s?\((.+)\);", 1],
-                [r"(if|while)\s?\((.+)\)", 2],
-                [r"return\s((?!%function_name).+);", 1]
+                # blank regex: [regex, blank_group, make blank/except blank(True/False)]
+                [r"^(.+?)(\[blankbefore\])", 1, True],
+                [r"^(.+?)(\[noblankbefore\])", 1, False],
+                [r"%function_name\s?\((.+)\);", 1, True],
+                [r"(if|while)\s?\((.+)\)", 2, True],
+                [r"(printf|scanf)\s?\((.+)\)", 2, True],
+                [r"return\s(.+?);", 1, True]
+                # [r"return\s((?!%function_name).+);", 1]
             ]
         },
         "main_function": {
             "self": [r"^(int|void)\s(main)\s?\(\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
             "blanks": [
-                [r"%function_name\s?\((.+)\);", 1]
+                [r"^(.+?)(\[blankbefore\])", 1, True],
+                [r"^(.+?)(\[noblankbefore\])", 1, False],
+                [r"%function_name\s?\((.+)\);", 1, True],
+                [r"(if|while)\s?\((.+)\)", 2, True],
+                [r"(printf|scanf)\s?\((.+)\)", 2, True],
+                [r"return\s([^0]+?);", 1, True]
             ]
         }    
     }
 
+    mark_strings = [
+        "[blankbefore]",
+        "[noblankbefore]"
+    ]
+
 
     def __init__(self, text):
         self.text = text
-        self.get_recursion_function()
+        self.get_target_function()
         self.pattern_process()
         
 
-    def get_recursion_function(self):
-        _regex = self.regex_patterns_raw["recursion_function"]["self"]
+    def get_target_function(self):
+        _regex = self.regex_patterns_raw["target_function"]["self"]
         matched = re.search(_regex[0], self.text, re.MULTILINE)
-        self.recursion_function_name = matched.group(_regex[1])
-        self.recursion_function_content = matched.group(_regex[2])
+        self.target_function_name = matched.group(_regex[1])
+        self.target_function_content = matched.group(_regex[2])
 
     def pattern_process(self):
         # pattern process
         self.regex_patterns = copy.deepcopy(self.regex_patterns_raw)
         for part_key in self.regex_patterns:
             for pattern in self.regex_patterns[part_key]["blanks"]:
-                pattern[0] = pattern[0].replace(r"%function_name", self.recursion_function_name)
+                pattern[0] = pattern[0].replace(r"%function_name", self.target_function_name)
+                print(pattern[0])
 
     def bracket_verify(self, span: tuple):
         _count = 0
@@ -89,6 +105,7 @@ class BlankCreator:
 
     def determine_blank_position(self):
         matched_blanks = []
+        excepted_blanks = []
         for part_key in self.regex_patterns:
             _regex_self = self.regex_patterns[part_key]["self"]
             for part_content in re.finditer(_regex_self[0], self.text, re.MULTILINE):
@@ -97,9 +114,14 @@ class BlankCreator:
                 for _regex_blank in self.regex_patterns[part_key]["blanks"]:
                     for blank in re.finditer(_regex_blank[0], part_text, re.MULTILINE):
                         span_relative = blank.span(_regex_blank[1])
+                        # add offset to span
                         span = tuple(map(operator.add, span_relative, (part_offset, part_offset)))
-                        if not Helper.is_in_range(span, matched_blanks):
-                            matched_blanks.append(span)
+                        if not Helper.is_in_range(span, matched_blanks + excepted_blanks):
+                            # check this rule is to make blank or to skip blank
+                            if _regex_blank[2]: # make
+                                matched_blanks.append(span)
+                            else:
+                                excepted_blanks.append(span)
 
         verified_blanks = []
         for matched_blank in matched_blanks:
@@ -120,13 +142,16 @@ class BlankCreator:
             blank_num += 1
             _last_end = blank[1]
         self.text_question += self.text[_last_end:]
+        # remove marks
+        for mark in self.mark_strings:
+            self.text_question = self.text_question.replace(mark, "")
 
 
 
 if __name__ == "__main__":
 
     files = Helper.get_files(sys.argv[1])
-    output_dir = os.path.join(sys.argv[1], "output")
+    output_dir = os.path.join(sys.argv[1], "..", "output")
     try:
         os.mkdir(output_dir)
     except FileExistsError:
