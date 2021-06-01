@@ -31,8 +31,12 @@
 
 ### 実現したルール（順番に）
 
-- [x] 指定した空欄にしない部分（行のはじめから，`[noblankbefore]`まで）
-- [x] 指定した空欄にする部分（行のはじめから，`[blankbefore]`まで）
+- [x] 指定した空欄に**しない**部分
+  - [x] 行のはじめから，`[noblankbefore]`まで
+  - [x] `[noblankbetween]`から，`[/noblankbetween]`まで
+- [x] 指定した空欄に**する**部分
+  - [x] 行のはじめから，`[blankbefore]`まで
+  - [x] `[blankbetween]`から，`[/blankbetween]`まで
 - [x] 対象関数の（）の中
 - [x] 条件文：if文, while文の(　)の中
 - [x] 標準入出力文：printf文，scanf文の(　)の中

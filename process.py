@@ -43,7 +43,9 @@ class BlankCreator:
             "blanks": [
                 # blank regex: [regex, blank_group, make blank/except blank(True/False)]
                 [r"^(.+?)(\[noblankbefore\])", 1, False],
+                [r"(\[noblankbetween\])(.+?)(\[\/noblankbetween\])", 2, False],
                 [r"^(.+?)(\[blankbefore\])", 1, True],
+                [r"(\[blankbetween\])(.+?)(\[\/blankbetween\])", 2, True],
                 [r"%function_name\s?\((.+)\);", 1, True],
                 [r"(if|while)\s?\((.+)\)", 2, True],
                 [r"(printf|scanf)\s?\((.+)\)", 2, True],
@@ -55,7 +57,9 @@ class BlankCreator:
             "self": [r"^(int|void)\s(main)\s?\(.*\)\s?\n?\{((.|\s)*?)^\}", 2, 3],
             "blanks": [
                 [r"^(.+?)(\[noblankbefore\])", 1, False],
+                [r"(\[noblankbetween\])(.+?)(\[\/noblankbetween\])", 2, False],
                 [r"^(.+?)(\[blankbefore\])", 1, True],
+                [r"(\[blankbetween\])(.+?)(\[\/blankbetween\])", 2, True],
                 [r"%function_name\s?\((.+)\);", 1, True],
                 [r"(if|while)\s?\((.+)\)", 2, True],
                 [r"(printf|scanf)\s?\((.+)\)", 2, True],
@@ -66,7 +70,11 @@ class BlankCreator:
 
     mark_strings = [
         "[blankbefore]",
-        "[noblankbefore]"
+        "[noblankbefore]",
+        "[blankbetween]",
+        "[/blankbetween]",
+        "[noblankbetween]",
+        "[/noblankbetween]"
     ]
 
 
