@@ -79,8 +79,13 @@ class BlankCreator:
     def get_target_function(self):
         _regex = self.regex_patterns_raw["target_function"]["self"]
         matched = re.search(_regex[0], self.text, re.MULTILINE)
-        self.target_function_name = matched.group(_regex[1])
-        self.target_function_content = matched.group(_regex[2])
+        if matched == None:
+            # only main function
+            self.target_function_name = "-=impossible-function-name=-"
+            # self.target_function_content = ""
+        else:
+            self.target_function_name = matched.group(_regex[1])
+            # self.target_function_content = matched.group(_regex[2])
 
     def pattern_process(self):
         # pattern process
