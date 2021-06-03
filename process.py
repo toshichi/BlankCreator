@@ -174,6 +174,7 @@ if __name__ == "__main__":
         maker.make_blanks()
         print("Processed %s, %d blanks created" % (file, len(maker.text_answer)))
         _output_text = maker.text_question + '\n\n' + ',,'.join(maker.text_answer) + ',,'
+        _output_text = _output_text.replace(" ","").replace("\t", "")
 
         _filename = os.path.basename(file)
         with open(os.path.join(output_dir, _filename), 'w') as f_output:
