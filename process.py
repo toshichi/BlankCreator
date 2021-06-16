@@ -1,8 +1,9 @@
-import sys
 import re
 import copy
 import operator
 import os
+
+import argparse
 
 class Helper:
 
@@ -156,12 +157,9 @@ class BlankCreator:
         for mark in self.mark_strings:
             self.text_question = self.text_question.replace(mark, "")
 
-
-
-if __name__ == "__main__":
-
-    files = Helper.get_files(sys.argv[1])
-    output_dir = os.path.join(sys.argv[1], "..", "output")
+def main(dir_path):
+    files = Helper.get_files(dir_path)
+    output_dir = os.path.join(dir_path, "..", "output")
     try:
         os.mkdir(output_dir)
     except FileExistsError:
@@ -178,3 +176,9 @@ if __name__ == "__main__":
         _filename = os.path.basename(file)
         with open(os.path.join(output_dir, _filename), 'w') as f_output:
             f_output.write(_output_text)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Creating blanks for C language source code files")
+    parser.add_argument('source_dir', type=str, help="The directory containing source code files to be processed.")
+    args = parser.parse_args()
+    main(args.source_dir)
