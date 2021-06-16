@@ -1,3 +1,4 @@
+import ctypes
 from gooey import Gooey, GooeyParser, local_resource_path
 
 from process import *
@@ -10,4 +11,8 @@ def gui_main():
     main(args.source_dir)
 
 if __name__ == "__main__":
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(True)
+    except:
+        pass
     gui_main()
