@@ -17,7 +17,4 @@ if __name__ == "__main__":
         ctypes.windll.shcore.SetProcessDpiAwareness(True)
     except:
         pass
-    # disable buffering
-    # sys.stdout.reconfigure(line_buffering=False)
-    print = partial(print, flush=True)
     gui_main()

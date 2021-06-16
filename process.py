@@ -2,6 +2,7 @@ import re
 import copy
 import operator
 import os
+from functools import partial
 
 import argparse
 
@@ -181,4 +182,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creating blanks for C language source code files")
     parser.add_argument('source_dir', type=str, help="The directory containing source code files to be processed.")
     args = parser.parse_args()
+    # disable buffering
+    print = partial(print, flush=True)
     main(args.source_dir)
