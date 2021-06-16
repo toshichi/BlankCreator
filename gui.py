@@ -1,4 +1,5 @@
 import ctypes
+import sys
 from gooey import Gooey, GooeyParser, local_resource_path
 
 from process import *
@@ -11,8 +12,11 @@ def gui_main():
     main(args.source_dir)
 
 if __name__ == "__main__":
+    # deal with windows high dpi
     try:
         ctypes.windll.shcore.SetProcessDpiAwareness(True)
     except:
         pass
+    # disable buffering
+    sys.stdout.reconfigure(line_buffering=False)
     gui_main()
