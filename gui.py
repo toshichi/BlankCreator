@@ -1,5 +1,5 @@
 import ctypes
-import sys
+from functools import partial
 from gooey import Gooey, GooeyParser, local_resource_path
 
 from process import *
@@ -13,10 +13,11 @@ def gui_main():
 
 if __name__ == "__main__":
     # deal with windows high dpi
-    # try:
-    #     ctypes.windll.shcore.SetProcessDpiAwareness(True)
-    # except:
-    #     pass
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(True)
+    except:
+        pass
     # disable buffering
-    sys.stdout.reconfigure(line_buffering=False)
+    # sys.stdout.reconfigure(line_buffering=False)
+    print = partial(print, flush=True)
     gui_main()
