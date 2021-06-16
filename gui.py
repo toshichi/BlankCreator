@@ -1,8 +1,8 @@
-from gooey import Gooey, GooeyParser
+from gooey import Gooey, GooeyParser, local_resource_path
 
 from process import *
 
-@Gooey(program_name='Blank Creator', image_dir='.')
+@Gooey(program_name='Blank Creator', image_dir=local_resource_path('.'))
 def gui_main():
     parser = GooeyParser(description="Creating blanks for C language source code files")
     parser.add_argument('source_dir', widget='DirChooser', help="The directory containing source code files to be processed.")

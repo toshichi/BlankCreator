@@ -1,9 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 import gooey
+import os
+
 gooey_root = os.path.dirname(gooey.__file__)
 
 block_cipher = None
+
+image_overrides = Tree('.', prefix='.')
 
 a = Analysis(['gui.py'],  # replace me with your path
              pathex=['.'],
@@ -24,6 +28,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
+          image_overrides,
           [],
           name='BlankCreator',
           debug=False,
@@ -33,4 +38,4 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=False,
-          icon=os.path.join(gooey_root, 'images', 'program_icon.png'))
+          icon=os.path.join(gooey_root, 'images', 'program_icon.ico'))
