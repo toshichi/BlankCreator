@@ -8,6 +8,7 @@ gooey_root = os.path.dirname(gooey.__file__)
 block_cipher = None
 
 image_overrides = Tree('.', prefix='.')
+options= [('u', None, 'OPTION')]
 
 a = Analysis(['gui.py'],  # replace me with your path
              pathex=['.'],
@@ -28,6 +29,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
+          options,
           image_overrides,
           [],
           name='BlankCreator',
