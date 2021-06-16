@@ -13,10 +13,10 @@ def gui_main():
 
 if __name__ == "__main__":
     # deal with windows high dpi
-    try:
-        ctypes.windll.shcore.SetProcessDpiAwareness(True)
-    except:
-        pass
+    # try:
+    #     ctypes.windll.shcore.SetProcessDpiAwareness(True)
+    # except:
+    #     pass
     # disable buffering
     sys.stdout.reconfigure(line_buffering=False)
     gui_main()
