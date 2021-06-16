@@ -43,3 +43,17 @@
 - [x] 条件文：if文, while文の(　)の中
 - [x] 標準入出力文：printf文，scanf文の(　)の中
 - [x] 関数戻り値：return文の後(main関数のreturn 0は除外)
+
+## 使い方
+
+usage: `python process.py [-h] source_dir`
+
+```
+Creating blanks for C language source code files
+
+positional arguments:
+  source_dir  The directory containing source code files to be processed.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
