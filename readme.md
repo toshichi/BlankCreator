@@ -43,6 +43,7 @@
 - [x] 条件文：if文, while文の(　)の中
 - [x] 標準入出力文：printf文，scanf文の(　)の中
 - [x] 関数戻り値：return文の後(main関数のreturn 0は除外)
+- [x] キャスト（型変換）（num = (int)chrなど）
 
 ## 使い方
 

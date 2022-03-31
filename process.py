@@ -64,7 +64,8 @@ class BlankCreator:
                 [r"%function_name\s?\((.+)\);", 1, True],
                 [r"(if|while)\s?\((.+)\)", 2, True],
                 [r"(printf|scanf)\s?\((.+)\)", 2, True],
-                [r"return\s([^0]+?);", 1, True]
+                [r"return\s([^0]+?);", 1, True],
+                [r"^(\s*)(\S+)\s?\=\s?.*\((((signed|unsigned|short|long|char|float|double|wchar_t|bool|int)\s){0,3}(signed|unsigned|short|long|char|float|double|wchar_t|bool|int))\)(\S+);", 3, True]
             ]
         }    
     }
