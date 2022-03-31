@@ -167,7 +167,7 @@ def main(dir_path):
         pass
 
     for file in files:
-        with open(file, 'r') as f_input:
+        with open(file, 'r', encoding="utf-8") as f_input:
             text = f_input.read()
         maker = BlankCreator(text)
         maker.make_blanks()
@@ -175,7 +175,7 @@ def main(dir_path):
         _output_text = maker.text_question + '\n\n' + ',,'.join(maker.text_answer).replace(" ","").replace("\t", "") + ',,'
 
         _filename = os.path.basename(file)
-        with open(os.path.join(output_dir, _filename), 'w') as f_output:
+        with open(os.path.join(output_dir, _filename), 'w', encoding="utf-8") as f_output:
             f_output.write(_output_text)
 
 if __name__ == "__main__":
